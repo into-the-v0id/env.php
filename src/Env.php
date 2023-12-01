@@ -18,6 +18,12 @@ use function in_array;
 use function preg_match;
 use function strtolower;
 
+// phpcs:disable SlevomatCodingStandard.Commenting.ForbiddenAnnotations
+
+/**
+ * @copyright Oliver Amann
+ * @license MIT
+ */
 class Env
 {
     /** @var RepositoryInterface|null */
