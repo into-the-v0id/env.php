@@ -1,0 +1,69 @@
+{
+    "name": "into-the-void/env",
+    "description": "Read, parse and modify environment variables",
+    "keywords": [
+        "environment",
+        "variable",
+        "read",
+        "parse",
+        "convert",
+        "process",
+        "write",
+        "modify",
+        "helper"
+    ],
+    "homepage": "https://github.com/into-the-v0id/env.php",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Oliver Amann",
+            "homepage": "https://github.com/into-the-v0id",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/into-the-v0id/env.php/issues",
+        "source": "https://github.com/into-the-v0id/env.php"
+    },
+    "require": {
+        "php": "^7.1 || ^8.0",
+        "ext-mbstring": "*",
+        "ext-pcre": "*"
+    },
+    "require-dev": {
+        "doctrine/coding-standard": "^9.0",
+        "phpunit/phpunit": "^7.5",
+        "squizlabs/php_codesniffer": "^3.7",
+        "vimeo/psalm": "^4.30"
+    },
+    "autoload": {
+        "psr-4": {
+            "IntoTheVoid\\Env\\": "src/"
+        },
+        "files": [
+            "src/function.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "IntoTheVoid\\Env\\Test\\": "tests/"
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    },
+    "scripts": {
+        "cs-check": "phpcs",
+        "cs-fix": "phpcbf",
+        "psalm": "psalm",
+        "phpunit": "phpunit",
+        "check": [
+            "@cs-check",
+            "@psalm",
+            "@phpunit"
+        ]
+    }
+}
