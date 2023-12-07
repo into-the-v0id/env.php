@@ -5,6 +5,7 @@
     beStrictAboutTestsThatDoNotTestAnything="false"
     colors="true"
     bootstrap="./tests/bootstrap.php"
+    cacheResult="false"
 >
     <testsuites>
         <testsuite name="unit">
