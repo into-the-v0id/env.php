@@ -69,9 +69,11 @@ class Env
         static::$normalizer = $normalizer;
     }
 
-    public static function parseString(string $value): ?string
+    public static function parseString(string $value, bool $normalize = true): ?string
     {
-        $value = static::getNormalizer()->normalize($value);
+        if ($normalize) {
+            $value = static::getNormalizer()->normalize($value);
+        }
 
         $lowercaseValue = strtolower($value);
         if (in_array($lowercaseValue, ['', 'null', 'nil', 'none', 'undefined', 'empty'], true)) {
@@ -81,9 +83,11 @@ class Env
         return $value;
     }
 
-    public static function parseBool(string $value): ?bool
+    public static function parseBool(string $value, bool $normalize = true): ?bool
     {
-        $value = static::getNormalizer()->normalize($value);
+        if ($normalize) {
+            $value = static::getNormalizer()->normalize($value);
+        }
 
         $lowercaseValue = strtolower($value);
 
@@ -98,9 +102,11 @@ class Env
         return null;
     }
 
-    public static function parseInt(string $value): ?int
+    public static function parseInt(string $value, bool $normalize = true): ?int
     {
-        $value = static::getNormalizer()->normalize($value);
+        if ($normalize) {
+            $value = static::getNormalizer()->normalize($value);
+        }
 
         $isInt = preg_match('/^[+\\-]?(0|[1-9][0-9]*)$/', $value) === 1;
         if (! $isInt) {
@@ -110,9 +116,11 @@ class Env
         return (int) $value;
     }
 
-    public static function parseFloat(string $value): ?float
+    public static function parseFloat(string $value, bool $normalize = true): ?float
     {
-        $value = static::getNormalizer()->normalize($value);
+        if ($normalize) {
+            $value = static::getNormalizer()->normalize($value);
+        }
 
         $isFloat = preg_match('/^[+\\-]?(0|[1-9][0-9]*)(?:\\.[0-9]+)?$/', $value) === 1;
         if (! $isFloat) {
@@ -123,9 +131,11 @@ class Env
     }
 
     /** @return (int|float|bool|string|null)[] */
-    public static function parseList(string $value, string $separator): array
+    public static function parseList(string $value, string $separator, bool $normalize = true): array
     {
-        $value = static::getNormalizer()->normalize($value);
+        if ($normalize) {
+            $value = static::getNormalizer()->normalize($value);
+        }
 
         if ($value === '') {
             return [];
@@ -142,42 +152,46 @@ class Env
     }
 
     /** @return int|float|bool|string|null */
-    public static function parse(string $value)
+    public static function parse(string $value, bool $normalize = true)
     {
-        return static::parseInt($value)
-            ?? static::parseFloat($value)
-            ?? static::parseBool($value)
-            ?? static::parseString($value);
+        if ($normalize) {
+            $value = static::getNormalizer()->normalize($value);
+        }
+
+        return static::parseInt($value, false)
+            ?? static::parseFloat($value, false)
+            ?? static::parseBool($value, false)
+            ?? static::parseString($value, false);
     }
 
     /** @throws UnparsableValue */
-    public static function parseStrictBool(string $rawValue): bool
+    public static function parseStrictBool(string $value, bool $normalize = true): bool
     {
-        $parsedValue = static::parseBool($rawValue);
+        $parsedValue = static::parseBool($value, $normalize);
         if ($parsedValue === null) {
-            throw UnparsableValue::create($rawValue, 'bool');
+            throw UnparsableValue::create($value, 'bool');
         }
 
         return $parsedValue;
     }
 
     /** @throws UnparsableValue */
-    public static function parseStrictInt(string $rawValue): int
+    public static function parseStrictInt(string $value, bool $normalize = true): int
     {
-        $parsedValue = static::parseInt($rawValue);
+        $parsedValue = static::parseInt($value, $normalize);
         if ($parsedValue === null) {
-            throw UnparsableValue::create($rawValue, 'int');
+            throw UnparsableValue::create($value, 'int');
         }
 
         return $parsedValue;
     }
 
     /** @throws UnparsableValue */
-    public static function parseStrictFloat(string $rawValue): float
+    public static function parseStrictFloat(string $value, bool $normalize = true): float
     {
-        $parsedValue = static::parseFloat($rawValue);
+        $parsedValue = static::parseFloat($value, $normalize);
         if ($parsedValue === null) {
-            throw UnparsableValue::create($rawValue, 'float');
+            throw UnparsableValue::create($value, 'float');
         }
 
         return $parsedValue;
@@ -208,13 +222,13 @@ class Env
 
         if ($strict) {
             try {
-                return static::parseStrictBool($value);
+                return static::parseStrictBool($value, false);
             } catch (ParserException $e) {
                 throw UnparsableEnvironmentVariable::create($name, $value, 'bool', 0, $e);
             }
         }
 
-        return static::parseBool($value);
+        return static::parseBool($value, false);
     }
 
     /** @throws UnparsableEnvironmentVariable */
@@ -227,13 +241,13 @@ class Env
 
         if ($strict) {
             try {
-                return static::parseStrictInt($value);
+                return static::parseStrictInt($value, false);
             } catch (ParserException $e) {
                 throw UnparsableEnvironmentVariable::create($name, $value, 'int', 0, $e);
             }
         }
 
-        return static::parseInt($value);
+        return static::parseInt($value, false);
     }
 
     /** @throws UnparsableEnvironmentVariable */
@@ -246,13 +260,13 @@ class Env
 
         if ($strict) {
             try {
-                return static::parseStrictFloat($value);
+                return static::parseStrictFloat($value, false);
             } catch (ParserException $e) {
                 throw UnparsableEnvironmentVariable::create($name, $value, 'float', 0, $e);
             }
         }
 
-        return static::parseFloat($value);
+        return static::parseFloat($value, false);
     }
 
     /** @return (int|float|bool|string|null)[]|null */
@@ -263,7 +277,7 @@ class Env
             return null;
         }
 
-        return static::parseList($value, $separator);
+        return static::parseList($value, $separator, false);
     }
 
     /** @return int|float|bool|string|null */
