@@ -102,7 +102,7 @@ class Env
     {
         $value = static::getNormalizer()->normalize($value);
 
-        $isInt = preg_match('/^[+\\-]?[0-9]+$/', $value) === 1;
+        $isInt = preg_match('/^[+\\-]?(0|[1-9][0-9]*)$/', $value) === 1;
         if (! $isInt) {
             return null;
         }
@@ -114,7 +114,7 @@ class Env
     {
         $value = static::getNormalizer()->normalize($value);
 
-        $isFloat = preg_match('/^[+\\-]?[0-9]+(?:\\.[0-9]+)?$/', $value) === 1;
+        $isFloat = preg_match('/^[+\\-]?(0|[1-9][0-9]*)(?:\\.[0-9]+)?$/', $value) === 1;
         if (! $isFloat) {
             return null;
         }
