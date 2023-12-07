@@ -21,17 +21,18 @@ use IntoTheVoid\Env\Env;
 getenv('APP_DEBUG');   // string(4) "true"
 Env::get('APP_DEBUG'); // bool(true)
 
+getenv('DB_PORT');     // string(4) "5432"
+Env::get('DB_PORT');   // int(5432)
+
 Env::getString('DB_HOST');          // string(9) "localhost"
 Env::getBool('APP_DEBUG');          // bool(true)
 Env::getInt('DB_PORT');             // int(5432)
 Env::getFloat('APP_MUL');           // double(1.25)
 Env::getList('PATH', ':');          // array(2) { "/usr/local/bin", "/usr/bin" }
-Env::getRequiredInt('NO_SUCH_VAR'); // Fatal error: MissingEnvironmentVariable
-Env::getRaw('APP_DEBUG');           // string(4) "true"
 
-Env::has('DB_PORT');          // bool(true)
-Env::set('APP_DEBUG', false);
-Env::remove('APP_DEBUG');
+Env::has('DB_PORT');       // bool(true)
+Env::set('DB_PORT', 3306);
+Env::remove('DB_PORT');
 ```
 
 You may also use the helper function instead of calling `Env::get()`:
@@ -43,6 +44,14 @@ env('APP_DEBUG'); // bool(true)
 
 ## Behaviour
 
+```php
+Env::getBool('NO_SUCH_VAR');         // NULL
+Env::getRequiredBool('NO_SUCH_VAR'); // Fatal error: MissingEnvironmentVariable
+
+Env::getBool('NOT_A_BOOL');                // Fatal error: UnparsableValue
+Env::getBool('NOT_A_BOOL', strict: false); // NULL
+```
+
 ### Repository
 
 By default, environment variables are read via `getenv(local_only: true)` and `getenv()`. They are written via `putenv()`, `$_ENV` and `$_SERVER`.
@@ -51,7 +60,9 @@ You may change this behaviour using `Env::setRepository()`. Have a look at [src/
 
 ### Normalizer
 
-If you want to strip spaces or quotes from your environment variables, you may configure this via `Env::setNormalizer()`. Have a look at [src/Normalizer](./src/Normalizer) for available Normalizers.
+If you want to strip spaces or quotes from your environment variables, then you may configure this via `Env::setNormalizer()`. Have a look at [src/Normalizer](./src/Normalizer) for available Normalizers.
+
+This is not done by default, because your environment variables should not contain any unwanted spaces or quotes. If they do you probably should fix the declaration of those environment variables instead.
 
 ### Parser
 
