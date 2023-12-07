@@ -269,7 +269,7 @@ class Env
     /** @return int|float|bool|string|null */
     public static function get(string $name)
     {
-        $value = static::getString($name);
+        $value = static::getRaw($name);
         if ($value === null) {
             return null;
         }
