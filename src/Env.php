@@ -386,7 +386,7 @@ class Env
     }
 
     /**
-     * Check if the environment variable exists and has an actual value
+     * Checks if the environment variable exists and has an actual value
      */
     public static function has(string $name): bool
     {
@@ -394,7 +394,7 @@ class Env
     }
 
     /**
-     * Check if the environment variable exists
+     * Checks if the environment variable exists
      */
     public static function exists(string $name): bool
     {
