@@ -24,11 +24,11 @@ Env::get('APP_DEBUG'); // bool(true)
 getenv('DB_PORT');     // string(4) "5432"
 Env::get('DB_PORT');   // int(5432)
 
-Env::getString('DB_HOST');          // string(9) "localhost"
-Env::getBool('APP_DEBUG');          // bool(true)
-Env::getInt('DB_PORT');             // int(5432)
-Env::getFloat('APP_MUL');           // double(1.25)
-Env::getList('PATH', ':');          // array(2) { "/usr/local/bin", "/usr/bin" }
+Env::getString('DB_HOST'); // string(9) "localhost"
+Env::getBool('APP_DEBUG'); // bool(true)
+Env::getInt('DB_PORT');    // int(5432)
+Env::getFloat('APP_MUL');  // double(1.25)
+Env::getList('PATH', ':'); // array(2) { "/usr/local/bin", "/usr/bin" }
 
 Env::has('DB_PORT');       // bool(true)
 Env::set('DB_PORT', 3306);
