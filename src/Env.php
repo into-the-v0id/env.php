@@ -142,9 +142,7 @@ class Env
         $items = Str::split($value, $separator);
 
         return array_map(
-            static function (string $item) {
-                return static::parse($item);
-            },
+            static fn (string $item) => static::parse($item),
             $items,
         );
     }
@@ -169,34 +167,22 @@ class Env
     /** @throws UnparsableValue */
     public static function parseStrictBool(string $value, bool $normalize = true): bool
     {
-        $parsedValue = static::parseBool($value, $normalize);
-        if ($parsedValue === null) {
-            throw UnparsableValue::create($value, 'bool');
-        }
-
-        return $parsedValue;
+        return static::parseBool($value, $normalize)
+            ?? throw UnparsableValue::create($value, 'bool');
     }
 
     /** @throws UnparsableValue */
     public static function parseStrictInt(string $value, bool $normalize = true): int
     {
-        $parsedValue = static::parseInt($value, $normalize);
-        if ($parsedValue === null) {
-            throw UnparsableValue::create($value, 'int');
-        }
-
-        return $parsedValue;
+        return static::parseInt($value, $normalize)
+            ?? throw UnparsableValue::create($value, 'int');
     }
 
     /** @throws UnparsableValue */
     public static function parseStrictFloat(string $value, bool $normalize = true): float
     {
-        $parsedValue = static::parseFloat($value, $normalize);
-        if ($parsedValue === null) {
-            throw UnparsableValue::create($value, 'float');
-        }
-
-        return $parsedValue;
+        return static::parseFloat($value, $normalize)
+            ?? throw UnparsableValue::create($value, 'float');
     }
 
     public static function getRaw(string $name): string|null
@@ -295,23 +281,15 @@ class Env
     /** @throws MissingEnvironmentVariable */
     public static function getRequiredRaw(string $name): string
     {
-        $value = static::getRaw($name);
-        if ($value === null) {
-            throw MissingEnvironmentVariable::fromName($name);
-        }
-
-        return $value;
+        return static::getRaw($name)
+            ?? throw MissingEnvironmentVariable::fromName($name);
     }
 
     /** @throws MissingEnvironmentVariable */
     public static function getRequiredString(string $name): string
     {
-        $value = static::getString($name);
-        if ($value === null) {
-            throw MissingEnvironmentVariable::fromName($name);
-        }
-
-        return $value;
+        return static::getString($name)
+            ?? throw MissingEnvironmentVariable::fromName($name);
     }
 
     /**
@@ -320,12 +298,8 @@ class Env
      */
     public static function getRequiredBool(string $name): bool
     {
-        $value = static::getBool($name);
-        if ($value === null) {
-            throw MissingEnvironmentVariable::fromName($name);
-        }
-
-        return $value;
+        return static::getBool($name)
+            ?? throw MissingEnvironmentVariable::fromName($name);
     }
 
     /**
@@ -334,12 +308,8 @@ class Env
      */
     public static function getRequiredInt(string $name): int
     {
-        $value = static::getInt($name);
-        if ($value === null) {
-            throw MissingEnvironmentVariable::fromName($name);
-        }
-
-        return $value;
+        return static::getInt($name)
+            ?? throw MissingEnvironmentVariable::fromName($name);
     }
 
     /**
@@ -348,12 +318,8 @@ class Env
      */
     public static function getRequiredFloat(string $name): float
     {
-        $value = static::getFloat($name);
-        if ($value === null) {
-            throw MissingEnvironmentVariable::fromName($name);
-        }
-
-        return $value;
+        return static::getFloat($name)
+            ?? throw MissingEnvironmentVariable::fromName($name);
     }
 
     /**
@@ -363,23 +329,15 @@ class Env
      */
     public static function getRequiredList(string $name, string $separator): array
     {
-        $value = static::getList($name, $separator);
-        if ($value === null) {
-            throw MissingEnvironmentVariable::fromName($name);
-        }
-
-        return $value;
+        return static::getList($name, $separator)
+            ?? throw MissingEnvironmentVariable::fromName($name);
     }
 
     /** @throws MissingEnvironmentVariable */
     public static function getRequired(string $name): int|float|bool|string
     {
-        $value = static::get($name);
-        if ($value === null) {
-            throw MissingEnvironmentVariable::fromName($name);
-        }
-
-        return $value;
+        return static::get($name)
+            ?? throw MissingEnvironmentVariable::fromName($name);
     }
 
     /**

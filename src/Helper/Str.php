@@ -5,15 +5,14 @@ declare(strict_types=1);
 namespace IntoTheVoid\Env\Helper;
 
 use function explode;
-use function ini_get;
 use function is_float;
 use function is_string;
+use function mb_str_split;
 use function mb_strlen;
-use function mb_strpos;
 use function mb_substr;
-use function preg_match;
-use function sprintf;
-use function substr;
+use function str_contains;
+use function str_ends_with;
+use function str_starts_with;
 
 /** @internal */
 class Str
@@ -22,36 +21,9 @@ class Str
     {
     }
 
-    public static function startsWith(string $haystack, string $needle): bool
-    {
-        if ($needle === '') {
-            return true;
-        }
-
-        return mb_strpos($haystack, $needle) === 0;
-    }
-
-    public static function endsWith(string $haystack, string $needle): bool
-    {
-        if ($needle === '') {
-            return true;
-        }
-
-        return mb_substr($haystack, -mb_strlen($needle)) === $needle;
-    }
-
-    public static function contains(string $haystack, string $needle): bool
-    {
-        if ($needle === '') {
-            return true;
-        }
-
-        return mb_strpos($haystack, $needle) !== false;
-    }
-
     public static function unwrap(string $value, string $left, string $right): string
     {
-        if (! self::startsWith($value, $left) || ! self::endsWith($value, $right)) {
+        if (! str_starts_with($value, $left) || ! str_ends_with($value, $right)) {
             return $value;
         }
 
@@ -79,14 +51,7 @@ class Str
         }
 
         if ($separator === '') {
-            $values = [];
-
-            $length = mb_strlen($value);
-            for ($i = 0; $i < $length; $i++) {
-                $values[] = mb_substr($value, $i, 1);
-            }
-
-            return $values;
+            return mb_str_split($value);
         }
 
         return explode($separator, $value);
@@ -107,17 +72,8 @@ class Str
         }
 
         if (is_float($value)) {
-            $precision = ini_get('precision');
-            if ($precision === false || $precision === '' || preg_match('/^[0-9]+$/', $precision) !== 1) {
-                $precision = '14';
-            }
-
-            $value = sprintf('%.' . $precision . 'F', $value);
-            while (self::endsWith($value, '0') && ! self::endsWith($value, '.0')) {
-                $value = substr($value, 0, -1);
-            }
-
-            if (! self::contains($value, '.')) {
+            $value = (string) $value;
+            if (! str_contains($value, '.')) {
                 $value .= '.0';
             }
 

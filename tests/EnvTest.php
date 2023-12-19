@@ -26,9 +26,7 @@ final class EnvTest extends TestCase
             $repository = $this->createMock(Repository\RepositoryInterface::class);
             $repository->method('get')
                 ->withConsecutive(...array_map(
-                    static function ($value) {
-                        return [$value];
-                    },
+                    static fn ($value) => [$value],
                     array_keys($data),
                 ))
                 ->willReturnOnConsecutiveCalls(...array_values($data));
@@ -46,9 +44,7 @@ final class EnvTest extends TestCase
             $normalizer = $this->createMock(Normalizer\NormalizerInterface::class);
             $normalizer->method('normalize')
                 ->withConsecutive(...array_map(
-                    static function ($value) {
-                        return [$value];
-                    },
+                    static fn ($value) => [$value],
                     array_keys($data),
                 ))
                 ->willReturnOnConsecutiveCalls(...array_values($data));
