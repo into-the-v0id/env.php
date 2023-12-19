@@ -5,11 +5,15 @@ declare(strict_types=1);
 namespace IntoTheVoid\Env\Helper;
 
 use function explode;
+use function ini_get;
 use function is_float;
 use function is_string;
 use function mb_strlen;
 use function mb_strpos;
 use function mb_substr;
+use function preg_match;
+use function sprintf;
+use function substr;
 
 /**
  * @internal
@@ -110,10 +114,21 @@ class Str
         }
 
         if (is_float($value)) {
-            $value = (string) $value;
+            $precision = ini_get('precision');
+            if ($precision === false || $precision === '' || preg_match('/^[0-9]+$/', $precision) !== 1) {
+                $precision = '14';
+            }
+
+            $value = sprintf('%.' . $precision . 'F', $value);
+            while (self::endsWith($value, '0') && ! self::endsWith($value, '.0')) {
+                $value = substr($value, 0, -1);
+            }
+
             if (! self::contains($value, '.')) {
                 $value .= '.0';
             }
+
+            return $value;
         }
 
         return (string) $value;
