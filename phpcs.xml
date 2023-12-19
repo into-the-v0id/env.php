@@ -8,7 +8,7 @@
     <arg name="colors"/>
     <arg value="p"/>
     <arg value="s"/>
-    <config name="php_version" value="70100"/>
+    <config name="php_version" value="80000"/>
 
     <file>src</file>
     <file>tests</file>
