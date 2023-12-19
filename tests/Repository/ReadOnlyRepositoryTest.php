@@ -13,7 +13,7 @@ final class ReadOnlyRepositoryTest extends TestCase
     {
         $innerRepository = $this->createMock(Repository\RepositoryInterface::class);
         $innerRepository->method('get')
-            ->withConsecutive(['GET'])
+            ->with('GET')
             ->willReturn('VALUE');
 
         $repository = new Repository\ReadOnlyRepository($innerRepository);

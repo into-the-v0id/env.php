@@ -13,12 +13,12 @@ final class RepositoryChainTest extends TestCase
     {
         $innerRepositoryOne = $this->createMock(Repository\RepositoryInterface::class);
         $innerRepositoryOne->method('get')
-            ->withConsecutive(['GET_UNSET'])
+            ->with('GET_UNSET')
             ->willReturn(null);
 
         $innerRepositoryTwo = $this->createMock(Repository\RepositoryInterface::class);
         $innerRepositoryTwo->method('get')
-            ->withConsecutive(['GET_UNSET'])
+            ->with('GET_UNSET')
             ->willReturn(null);
 
         $chain = new Repository\RepositoryChain([
@@ -33,7 +33,7 @@ final class RepositoryChainTest extends TestCase
     {
         $innerRepositoryOne = $this->createMock(Repository\RepositoryInterface::class);
         $innerRepositoryOne->method('get')
-            ->withConsecutive(['GET_EMPTY'])
+            ->with('GET_EMPTY')
             ->willReturn('');
 
         $innerRepositoryTwo = $this->createMock(Repository\RepositoryInterface::class);
@@ -53,12 +53,12 @@ final class RepositoryChainTest extends TestCase
     {
         $innerRepositoryOne = $this->createMock(Repository\RepositoryInterface::class);
         $innerRepositoryOne->method('get')
-            ->withConsecutive(['GET_STRING'])
+            ->with('GET_STRING')
             ->willReturn(null);
 
         $innerRepositoryTwo = $this->createMock(Repository\RepositoryInterface::class);
         $innerRepositoryTwo->method('get')
-            ->withConsecutive(['GET_STRING'])
+            ->with('GET_STRING')
             ->willReturn('Hello World');
 
         $chain = new Repository\RepositoryChain([
@@ -76,11 +76,11 @@ final class RepositoryChainTest extends TestCase
     {
         $innerRepositoryOne = $this->createMock(Repository\RepositoryInterface::class);
         $innerRepositoryOne->method('set')
-            ->withConsecutive(['SET_EMPTY', '']);
+            ->with('SET_EMPTY', '');
 
         $innerRepositoryTwo = $this->createMock(Repository\RepositoryInterface::class);
         $innerRepositoryTwo->method('set')
-            ->withConsecutive(['SET_EMPTY', '']);
+            ->with('SET_EMPTY', '');
 
         $chain = new Repository\RepositoryChain([
             $innerRepositoryOne,
@@ -94,11 +94,11 @@ final class RepositoryChainTest extends TestCase
     {
         $innerRepositoryOne = $this->createMock(Repository\RepositoryInterface::class);
         $innerRepositoryOne->method('set')
-            ->withConsecutive(['SET_STRING', 'Hello World']);
+            ->with('SET_STRING', 'Hello World');
 
         $innerRepositoryTwo = $this->createMock(Repository\RepositoryInterface::class);
         $innerRepositoryTwo->method('set')
-            ->withConsecutive(['SET_STRING', 'Hello World']);
+            ->with('SET_STRING', 'Hello World');
 
         $chain = new Repository\RepositoryChain([
             $innerRepositoryOne,
@@ -112,11 +112,11 @@ final class RepositoryChainTest extends TestCase
     {
         $innerRepositoryOne = $this->createMock(Repository\RepositoryInterface::class);
         $innerRepositoryOne->method('set')
-            ->withConsecutive(['REMOVE', null]);
+            ->with('REMOVE', null);
 
         $innerRepositoryTwo = $this->createMock(Repository\RepositoryInterface::class);
         $innerRepositoryTwo->method('set')
-            ->withConsecutive(['REMOVE', null]);
+            ->with('REMOVE', null);
 
         $chain = new Repository\RepositoryChain([
             $innerRepositoryOne,

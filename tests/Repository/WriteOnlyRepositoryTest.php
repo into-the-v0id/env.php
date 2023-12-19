@@ -24,7 +24,7 @@ final class WriteOnlyRepositoryTest extends TestCase
     {
         $innerRepository = $this->createMock(Repository\RepositoryInterface::class);
         $innerRepository->method('set')
-            ->withConsecutive(['SET', 'VALUE']);
+            ->with('SET', 'VALUE');
 
         $repository = new Repository\WriteOnlyRepository($innerRepository);
 
@@ -35,7 +35,7 @@ final class WriteOnlyRepositoryTest extends TestCase
     {
         $innerRepository = $this->createMock(Repository\RepositoryInterface::class);
         $innerRepository->method('set')
-            ->withConsecutive(['REMOVE', null]);
+            ->with('REMOVE', null);
 
         $repository = new Repository\WriteOnlyRepository($innerRepository);
 

@@ -11,10 +11,6 @@ use IntoTheVoid\Env\Exception\Parser\UnparsableValue;
 use IntoTheVoid\Env\Normalizer;
 use IntoTheVoid\Env\Repository;
 
-use function array_keys;
-use function array_map;
-use function array_values;
-
 final class EnvTest extends TestCase
 {
     /** @param mixed[]|null $data */
@@ -24,12 +20,12 @@ final class EnvTest extends TestCase
             $repository = new Repository\ArrayRepository([]);
         } else {
             $repository = $this->createMock(Repository\RepositoryInterface::class);
-            $repository->method('get')
-                ->withConsecutive(...array_map(
-                    static fn ($value) => [$value],
-                    array_keys($data),
-                ))
-                ->willReturnOnConsecutiveCalls(...array_values($data));
+
+            foreach ($data as $param => $return) {
+                $repository->method('get')
+                    ->with($param)
+                    ->willReturn($return);
+            }
         }
 
         Env::setRepository($repository);
@@ -42,12 +38,12 @@ final class EnvTest extends TestCase
             $normalizer = new Normalizer\NoopNormalizer();
         } else {
             $normalizer = $this->createMock(Normalizer\NormalizerInterface::class);
-            $normalizer->method('normalize')
-                ->withConsecutive(...array_map(
-                    static fn ($value) => [$value],
-                    array_keys($data),
-                ))
-                ->willReturnOnConsecutiveCalls(...array_values($data));
+
+            foreach ($data as $param => $return) {
+                $normalizer->method('normalize')
+                    ->with($param)
+                    ->willReturn($return);
+            }
         }
 
         Env::setNormalizer($normalizer);
@@ -354,7 +350,7 @@ final class EnvTest extends TestCase
     ): void {
         $repository = $this->createMock(Repository\RepositoryInterface::class);
         $repository->method('set')
-            ->withConsecutive([$name, $result]);
+            ->with($name, $result);
         Env::setRepository($repository);
 
         // Ensure normalizer is not called
@@ -377,7 +373,7 @@ final class EnvTest extends TestCase
     {
         $repository = $this->createMock(Repository\RepositoryInterface::class);
         $repository->method('set')
-            ->withConsecutive([$name, null]);
+            ->with($name, null);
         Env::setRepository($repository);
 
         // Ensure normalizer is not called

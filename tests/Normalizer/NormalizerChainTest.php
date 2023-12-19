@@ -13,17 +13,17 @@ final class NormalizerChainTest extends TestCase
     {
         $innerNormalizerOne = $this->createMock(Normalizer\NormalizerInterface::class);
         $innerNormalizerOne->method('normalize')
-            ->withConsecutive(['" Hello "'])
+            ->with('" Hello "')
             ->willReturn(' Hello ');
 
         $innerNormalizerTwo = $this->createMock(Normalizer\NormalizerInterface::class);
         $innerNormalizerTwo->method('normalize')
-            ->withConsecutive([' Hello '])
+            ->with(' Hello ')
             ->willReturn(' Hello ');
 
         $innerNormalizerThree = $this->createMock(Normalizer\NormalizerInterface::class);
         $innerNormalizerThree->method('normalize')
-            ->withConsecutive([' Hello '])
+            ->with(' Hello ')
             ->willReturn('Hello');
 
         $chain = new Normalizer\NormalizerChain([
