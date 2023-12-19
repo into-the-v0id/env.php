@@ -158,10 +158,15 @@ class Env
             $value = static::getNormalizer()->normalize($value);
         }
 
+        $stringValue = static::parseString($value, false);
+        if ($stringValue === null) {
+            return null;
+        }
+
         return static::parseInt($value, false)
             ?? static::parseFloat($value, false)
             ?? static::parseBool($value, false)
-            ?? static::parseString($value, false);
+            ?? $stringValue;
     }
 
     /** @throws UnparsableValue */
