@@ -38,7 +38,7 @@ class Env
     {
         if (static::$repository === null) {
             static::$repository = new RepositoryChain([
-                new Repository\ReadOnlyRepository(new Repository\GetenvRepository(true)),
+                new Repository\ReadOnlyRepository(new Repository\GetenvRepository(localOnly: true)),
                 new Repository\GetenvRepository(),
                 new Repository\WriteOnlyRepository(new Repository\EnvArrayRepository()),
                 new Repository\WriteOnlyRepository(new Repository\ServerArrayRepository()),
@@ -153,14 +153,14 @@ class Env
             $value = static::getNormalizer()->normalize($value);
         }
 
-        $stringValue = static::parseString($value, false);
+        $stringValue = static::parseString($value, normalize: false);
         if ($stringValue === null) {
             return null;
         }
 
-        return static::parseInt($value, false)
-            ?? static::parseFloat($value, false)
-            ?? static::parseBool($value, false)
+        return static::parseInt($value, normalize: false)
+            ?? static::parseFloat($value, normalize: false)
+            ?? static::parseBool($value, normalize: false)
             ?? $stringValue;
     }
 
@@ -210,13 +210,13 @@ class Env
 
         if ($strict) {
             try {
-                return static::parseStrictBool($value, false);
+                return static::parseStrictBool($value, normalize: false);
             } catch (ParserException $e) {
-                throw UnparsableEnvironmentVariable::create($name, $value, 'bool', 0, $e);
+                throw UnparsableEnvironmentVariable::create($name, $value, 'bool', previous: $e);
             }
         }
 
-        return static::parseBool($value, false);
+        return static::parseBool($value, normalize: false);
     }
 
     /** @throws UnparsableEnvironmentVariable */
@@ -229,13 +229,13 @@ class Env
 
         if ($strict) {
             try {
-                return static::parseStrictInt($value, false);
+                return static::parseStrictInt($value, normalize: false);
             } catch (ParserException $e) {
-                throw UnparsableEnvironmentVariable::create($name, $value, 'int', 0, $e);
+                throw UnparsableEnvironmentVariable::create($name, $value, 'int', previous: $e);
             }
         }
 
-        return static::parseInt($value, false);
+        return static::parseInt($value, normalize: false);
     }
 
     /** @throws UnparsableEnvironmentVariable */
@@ -248,13 +248,13 @@ class Env
 
         if ($strict) {
             try {
-                return static::parseStrictFloat($value, false);
+                return static::parseStrictFloat($value, normalize: false);
             } catch (ParserException $e) {
-                throw UnparsableEnvironmentVariable::create($name, $value, 'float', 0, $e);
+                throw UnparsableEnvironmentVariable::create($name, $value, 'float', previous: $e);
             }
         }
 
-        return static::parseFloat($value, false);
+        return static::parseFloat($value, normalize: false);
     }
 
     /** @return (int|float|bool|string|null)[]|null */
@@ -265,7 +265,7 @@ class Env
             return null;
         }
 
-        return static::parseList($value, $separator, false);
+        return static::parseList($value, $separator, normalize: false);
     }
 
     public static function get(string $name): int|float|bool|string|null
