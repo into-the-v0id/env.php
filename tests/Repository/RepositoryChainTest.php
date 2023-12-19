@@ -45,7 +45,7 @@ final class RepositoryChainTest extends TestCase
 
         $this->assertEquals(
             '',
-            $chain->get('GET_EMPTY')
+            $chain->get('GET_EMPTY'),
         );
     }
 
@@ -68,7 +68,7 @@ final class RepositoryChainTest extends TestCase
 
         $this->assertEquals(
             'Hello World',
-            $chain->get('GET_STRING')
+            $chain->get('GET_STRING'),
         );
     }
 

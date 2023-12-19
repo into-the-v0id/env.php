@@ -11,18 +11,16 @@ use function sprintf;
 
 class UnparsableEnvironmentVariable extends UnexpectedValueException implements ParserException
 {
-    /** @var string|null */
-    protected $name = null;
+    protected string|null $name = null;
 
-    /** @var string|null */
-    protected $value = null;
+    protected string|null $value = null;
 
     public static function create(
         string $name,
-        ?string $value = null,
-        ?string $targetType = null,
+        string|null $value = null,
+        string|null $targetType = null,
         int $code = 0,
-        ?Throwable $previous = null
+        Throwable|null $previous = null,
     ): self {
         $message = sprintf('Unable to parse environment variable "%s"', $name);
 
@@ -40,12 +38,12 @@ class UnparsableEnvironmentVariable extends UnexpectedValueException implements 
         return $exception;
     }
 
-    public function getName(): ?string
+    public function getName(): string|null
     {
         return $this->name;
     }
 
-    public function getValue(): ?string
+    public function getValue(): string|null
     {
         return $this->value;
     }

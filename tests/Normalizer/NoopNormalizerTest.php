@@ -14,9 +14,7 @@ final class NoopNormalizerTest extends TestCase
         return new Normalizer\NoopNormalizer();
     }
 
-    /**
-     * @return array<array<mixed>>
-     */
+    /** @return array<array<mixed>> */
     public function normalizeProvider(): array
     {
         return [
@@ -28,14 +26,12 @@ final class NoopNormalizerTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider normalizeProvider
-     */
+    /** @dataProvider normalizeProvider */
     public function testNormalize(string $value, string $result): void
     {
         $this->assertEquals(
             $result,
-            self::createNormalizer()->normalize($value)
+            self::createNormalizer()->normalize($value),
         );
     }
 }

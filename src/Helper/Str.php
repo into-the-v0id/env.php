@@ -15,9 +15,7 @@ use function preg_match;
 use function sprintf;
 use function substr;
 
-/**
- * @internal
- */
+/** @internal */
 class Str
 {
     private function __construct() // Prevent instantiation
@@ -73,9 +71,7 @@ class Str
         return $value;
     }
 
-    /**
-     * @return string[]
-     */
+    /** @return string[] */
     public static function split(string $value, string $separator): array
     {
         if ($value === '') {
@@ -96,10 +92,7 @@ class Str
         return explode($separator, $value);
     }
 
-    /**
-     * @param mixed $value
-     */
-    public static function from($value): string
+    public static function from(mixed $value): string
     {
         if (is_string($value)) {
             return $value;

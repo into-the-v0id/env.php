@@ -11,14 +11,13 @@ use function sprintf;
 
 class UnparsableValue extends UnexpectedValueException implements ParserException
 {
-    /** @var string|null */
-    protected $value = null;
+    protected string|null $value = null;
 
     public static function create(
         string $value,
-        ?string $targetType = null,
+        string|null $targetType = null,
         int $code = 0,
-        ?Throwable $previous = null
+        Throwable|null $previous = null,
     ): self {
         $message = sprintf('Unable to parse value "%s"', $value);
 
@@ -32,7 +31,7 @@ class UnparsableValue extends UnexpectedValueException implements ParserExceptio
         return $exception;
     }
 
-    public function getValue(): ?string
+    public function getValue(): string|null
     {
         return $this->value;
     }

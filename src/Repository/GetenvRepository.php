@@ -12,15 +12,12 @@ use function putenv;
 
 class GetenvRepository implements RepositoryInterface
 {
-    /** @var bool */
-    protected $localOnly;
-
-    public function __construct(bool $localOnly = false)
-    {
-        $this->localOnly = $localOnly;
+    public function __construct(
+        protected bool $localOnly = false,
+    ) {
     }
 
-    public function get(string $name): ?string
+    public function get(string $name): string|null
     {
         if ($name === '') {
             throw InvalidName::fromName($name);
@@ -34,7 +31,7 @@ class GetenvRepository implements RepositoryInterface
         return $value;
     }
 
-    public function set(string $name, ?string $value): void
+    public function set(string $name, string|null $value): void
     {
         if ($name === '') {
             throw InvalidName::fromName($name);

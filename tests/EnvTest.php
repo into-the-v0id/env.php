@@ -17,10 +17,8 @@ use function array_values;
 
 final class EnvTest extends TestCase
 {
-    /**
-     * @param mixed[]|null $data
-     */
-    private function configureRepository(?array $data): void
+    /** @param mixed[]|null $data */
+    private function configureRepository(array|null $data): void
     {
         if ($data === null) {
             $repository = new Repository\ArrayRepository([]);
@@ -31,7 +29,7 @@ final class EnvTest extends TestCase
                     static function ($value) {
                         return [$value];
                     },
-                    array_keys($data)
+                    array_keys($data),
                 ))
                 ->willReturnOnConsecutiveCalls(...array_values($data));
         }
@@ -39,10 +37,8 @@ final class EnvTest extends TestCase
         Env::setRepository($repository);
     }
 
-    /**
-     * @param mixed[]|null $data
-     */
-    private function configureNormalizer(?array $data): void
+    /** @param mixed[]|null $data */
+    private function configureNormalizer(array|null $data): void
     {
         if ($data === null) {
             $normalizer = new Normalizer\NoopNormalizer();
@@ -53,7 +49,7 @@ final class EnvTest extends TestCase
                     static function ($value) {
                         return [$value];
                     },
-                    array_keys($data)
+                    array_keys($data),
                 ))
                 ->willReturnOnConsecutiveCalls(...array_values($data));
         }
@@ -89,9 +85,7 @@ final class EnvTest extends TestCase
         $this->assertSame($normalizer, Env::getNormalizer());
     }
 
-    /**
-     * @return array<array<mixed>>
-     */
+    /** @return array<array<mixed>> */
     public function parseProvider(): array
     {
         return [
@@ -155,7 +149,6 @@ final class EnvTest extends TestCase
 
     /**
      * @param mixed[]      $arguments
-     * @param mixed        $result
      * @param mixed[]|null $normalizerData
      *
      * @dataProvider parseProvider
@@ -163,9 +156,9 @@ final class EnvTest extends TestCase
     public function testParse(
         string $methodName,
         array $arguments,
-        $result,
-        ?string $expectedException,
-        ?array $normalizerData
+        mixed $result,
+        string|null $expectedException,
+        array|null $normalizerData,
     ): void {
         if ($expectedException !== null) {
             $this->expectException($expectedException);
@@ -176,13 +169,11 @@ final class EnvTest extends TestCase
 
         $this->assertEquals(
             $result,
-            Env::{$methodName}(...$arguments)
+            Env::{$methodName}(...$arguments),
         );
     }
 
-    /**
-     * @return array<array<mixed>>
-     */
+    /** @return array<array<mixed>> */
     public function getterProvider(): array
     {
         return [
@@ -250,7 +241,6 @@ final class EnvTest extends TestCase
 
     /**
      * @param mixed[]      $arguments
-     * @param mixed        $result
      * @param mixed[]|null $repositoryData
      * @param mixed[]|null $normalizerData
      *
@@ -259,10 +249,10 @@ final class EnvTest extends TestCase
     public function testGet(
         string $methodName,
         array $arguments,
-        $result,
-        ?string $expectedException,
-        ?array $repositoryData,
-        ?array $normalizerData
+        mixed $result,
+        string|null $expectedException,
+        array|null $repositoryData,
+        array|null $normalizerData,
     ): void {
         if ($expectedException !== null) {
             $this->expectException($expectedException);
@@ -273,13 +263,11 @@ final class EnvTest extends TestCase
 
         $this->assertEquals(
             $result,
-            Env::{$methodName}(...$arguments)
+            Env::{$methodName}(...$arguments),
         );
     }
 
-    /**
-     * @return array<array<mixed>>
-     */
+    /** @return array<array<mixed>> */
     public function hasProvider(): array
     {
         return [
@@ -299,21 +287,19 @@ final class EnvTest extends TestCase
     public function testHas(
         string $name,
         bool $result,
-        ?array $repositoryData,
-        ?array $normalizerData
+        array|null $repositoryData,
+        array|null $normalizerData,
     ): void {
         $this->configureRepository($repositoryData);
         $this->configureNormalizer($normalizerData);
 
         $this->assertEquals(
             $result,
-            Env::has($name)
+            Env::has($name),
         );
     }
 
-    /**
-     * @return array<array<mixed>>
-     */
+    /** @return array<array<mixed>> */
     public function existsProvider(): array
     {
         return [
@@ -332,20 +318,18 @@ final class EnvTest extends TestCase
     public function testExists(
         string $name,
         bool $result,
-        ?array $repositoryData
+        array|null $repositoryData,
     ): void {
         $this->configureRepository($repositoryData);
         $this->configureNormalizer([]);
 
         $this->assertEquals(
             $result,
-            Env::exists($name)
+            Env::exists($name),
         );
     }
 
-    /**
-     * @return array<array<mixed>>
-     */
+    /** @return array<array<mixed>> */
     public function setterProvider(): array
     {
         return [
@@ -366,15 +350,11 @@ final class EnvTest extends TestCase
         ];
     }
 
-    /**
-     * @param mixed $value
-     *
-     * @dataProvider setterProvider
-     */
+    /** @dataProvider setterProvider */
     public function testSet(
         string $name,
-        $value,
-        string $result
+        mixed $value,
+        string $result,
     ): void {
         $repository = $this->createMock(Repository\RepositoryInterface::class);
         $repository->method('set')
@@ -388,9 +368,7 @@ final class EnvTest extends TestCase
         Env::set($name, $value);
     }
 
-    /**
-     * @return array<array<mixed>>
-     */
+    /** @return array<array<mixed>> */
     public function removeProvider(): array
     {
         return [
@@ -398,9 +376,7 @@ final class EnvTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider removeProvider
-     */
+    /** @dataProvider removeProvider */
     public function testRemove(string $name): void
     {
         $repository = $this->createMock(Repository\RepositoryInterface::class);

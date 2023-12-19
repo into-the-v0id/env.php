@@ -8,18 +8,13 @@ use IntoTheVoid\Env\Helper\Str;
 
 class ArrayRepository implements RepositoryInterface
 {
-    /** @var mixed[] */
-    protected $data;
-
-    /**
-     * @param mixed[] $data
-     */
-    public function __construct(array $data)
-    {
-        $this->data = $data;
+    /** @param mixed[] $data */
+    public function __construct(
+        protected array $data,
+    ) {
     }
 
-    public function get(string $name): ?string
+    public function get(string $name): string|null
     {
         if (! isset($this->data[$name])) {
             return null;
@@ -28,7 +23,7 @@ class ArrayRepository implements RepositoryInterface
         return Str::from($this->data[$name]);
     }
 
-    public function set(string $name, ?string $value): void
+    public function set(string $name, string|null $value): void
     {
         if ($value === null) {
             unset($this->data[$name]);

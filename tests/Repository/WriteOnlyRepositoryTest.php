@@ -16,7 +16,7 @@ final class WriteOnlyRepositoryTest extends TestCase
 
         $this->assertEquals(
             null,
-            $repository->get('GET')
+            $repository->get('GET'),
         );
     }
 

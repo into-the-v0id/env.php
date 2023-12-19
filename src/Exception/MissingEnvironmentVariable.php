@@ -11,17 +11,16 @@ use function sprintf;
 
 class MissingEnvironmentVariable extends UnexpectedValueException implements Exception
 {
-    /** @var string|null */
-    protected $name = null;
+    protected string|null $name = null;
 
     public static function fromName(
         string $name,
         int $code = 0,
-        ?Throwable $previous = null
+        Throwable|null $previous = null,
     ): self {
         $message = sprintf(
             'Missing environment variable "%s"',
-            $name
+            $name,
         );
 
         $exception       = new self($message, $code, $previous);
@@ -30,7 +29,7 @@ class MissingEnvironmentVariable extends UnexpectedValueException implements Exc
         return $exception;
     }
 
-    public function getName(): ?string
+    public function getName(): string|null
     {
         return $this->name;
     }

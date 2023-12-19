@@ -34,7 +34,7 @@ final class NormalizerChainTest extends TestCase
 
         $this->assertEquals(
             'Hello',
-            $chain->normalize('" Hello "')
+            $chain->normalize('" Hello "'),
         );
     }
 
@@ -44,15 +44,15 @@ final class NormalizerChainTest extends TestCase
 
         $this->assertEquals(
             'Hello',
-            $chain->normalize('Hello')
+            $chain->normalize('Hello'),
         );
         $this->assertEquals(
             ' Hello ',
-            $chain->normalize(' Hello ')
+            $chain->normalize(' Hello '),
         );
         $this->assertEquals(
             '"Hello"',
-            $chain->normalize('"Hello"')
+            $chain->normalize('"Hello"'),
         );
     }
 }

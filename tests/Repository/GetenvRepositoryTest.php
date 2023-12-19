@@ -28,9 +28,7 @@ final class GetenvRepositoryTest extends TestCase
         putenv('SET_NULL=Hello World');
     }
 
-    /**
-     * @return array<array<mixed>>
-     */
+    /** @return array<array<mixed>> */
     public function getterProvider(): array
     {
         return [
@@ -40,20 +38,16 @@ final class GetenvRepositoryTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider getterProvider
-     */
-    public function testGet(string $name, ?string $result): void
+    /** @dataProvider getterProvider */
+    public function testGet(string $name, string|null $result): void
     {
         $this->assertEquals(
             $result,
-            self::createRepository()->get($name)
+            self::createRepository()->get($name),
         );
     }
 
-    /**
-     * @return array<array<mixed>>
-     */
+    /** @return array<array<mixed>> */
     public function setterProvider(): array
     {
         return [
@@ -64,18 +58,14 @@ final class GetenvRepositoryTest extends TestCase
         ];
     }
 
-    /**
-     * @param string|false $result
-     *
-     * @dataProvider setterProvider
-     */
-    public function testSet(string $name, ?string $value, $result): void
+    /** @dataProvider setterProvider */
+    public function testSet(string $name, string|null $value, string|false $result): void
     {
         self::createRepository()->set($name, $value);
 
         $this->assertEquals(
             $result,
-            getenv($name)
+            getenv($name),
         );
     }
 }

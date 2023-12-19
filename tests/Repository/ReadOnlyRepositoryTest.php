@@ -20,7 +20,7 @@ final class ReadOnlyRepositoryTest extends TestCase
 
         $this->assertEquals(
             'VALUE',
-            $repository->get('GET')
+            $repository->get('GET'),
         );
     }
 

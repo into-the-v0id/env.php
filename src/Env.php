@@ -26,11 +26,9 @@ use function strtolower;
  */
 class Env
 {
-    /** @var RepositoryInterface|null */
-    protected static $repository = null;
+    protected static RepositoryInterface|null $repository = null;
 
-    /** @var NormalizerInterface|null */
-    protected static $normalizer = null;
+    protected static NormalizerInterface|null $normalizer = null;
 
     private function __construct() // Prevent instantiation
     {
@@ -69,7 +67,7 @@ class Env
         static::$normalizer = $normalizer;
     }
 
-    public static function parseString(string $value, bool $normalize = true): ?string
+    public static function parseString(string $value, bool $normalize = true): string|null
     {
         if ($normalize) {
             $value = static::getNormalizer()->normalize($value);
@@ -83,7 +81,7 @@ class Env
         return $value;
     }
 
-    public static function parseBool(string $value, bool $normalize = true): ?bool
+    public static function parseBool(string $value, bool $normalize = true): bool|null
     {
         if ($normalize) {
             $value = static::getNormalizer()->normalize($value);
@@ -102,7 +100,7 @@ class Env
         return null;
     }
 
-    public static function parseInt(string $value, bool $normalize = true): ?int
+    public static function parseInt(string $value, bool $normalize = true): int|null
     {
         if ($normalize) {
             $value = static::getNormalizer()->normalize($value);
@@ -116,7 +114,7 @@ class Env
         return (int) $value;
     }
 
-    public static function parseFloat(string $value, bool $normalize = true): ?float
+    public static function parseFloat(string $value, bool $normalize = true): float|null
     {
         if ($normalize) {
             $value = static::getNormalizer()->normalize($value);
@@ -147,12 +145,11 @@ class Env
             static function (string $item) {
                 return static::parse($item);
             },
-            $items
+            $items,
         );
     }
 
-    /** @return int|float|bool|string|null */
-    public static function parse(string $value, bool $normalize = true)
+    public static function parse(string $value, bool $normalize = true): int|float|bool|string|null
     {
         if ($normalize) {
             $value = static::getNormalizer()->normalize($value);
@@ -202,12 +199,12 @@ class Env
         return $parsedValue;
     }
 
-    public static function getRaw(string $name): ?string
+    public static function getRaw(string $name): string|null
     {
         return static::getRepository()->get($name);
     }
 
-    public static function getString(string $name): ?string
+    public static function getString(string $name): string|null
     {
         $value = static::getRaw($name);
         if ($value === null) {
@@ -218,7 +215,7 @@ class Env
     }
 
     /** @throws UnparsableEnvironmentVariable */
-    public static function getBool(string $name, bool $strict = true): ?bool
+    public static function getBool(string $name, bool $strict = true): bool|null
     {
         $value = static::getString($name);
         if ($value === null) {
@@ -237,7 +234,7 @@ class Env
     }
 
     /** @throws UnparsableEnvironmentVariable */
-    public static function getInt(string $name, bool $strict = true): ?int
+    public static function getInt(string $name, bool $strict = true): int|null
     {
         $value = static::getString($name);
         if ($value === null) {
@@ -256,7 +253,7 @@ class Env
     }
 
     /** @throws UnparsableEnvironmentVariable */
-    public static function getFloat(string $name, bool $strict = true): ?float
+    public static function getFloat(string $name, bool $strict = true): float|null
     {
         $value = static::getString($name);
         if ($value === null) {
@@ -275,7 +272,7 @@ class Env
     }
 
     /** @return (int|float|bool|string|null)[]|null */
-    public static function getList(string $name, string $separator): ?array
+    public static function getList(string $name, string $separator): array|null
     {
         $value = static::getString($name);
         if ($value === null) {
@@ -285,8 +282,7 @@ class Env
         return static::parseList($value, $separator, false);
     }
 
-    /** @return int|float|bool|string|null */
-    public static function get(string $name)
+    public static function get(string $name): int|float|bool|string|null
     {
         $value = static::getRaw($name);
         if ($value === null) {
@@ -375,12 +371,8 @@ class Env
         return $value;
     }
 
-    /**
-     * @return int|float|bool|string
-     *
-     * @throws MissingEnvironmentVariable
-     */
-    public static function getRequired(string $name)
+    /** @throws MissingEnvironmentVariable */
+    public static function getRequired(string $name): int|float|bool|string
     {
         $value = static::get($name);
         if ($value === null) {
@@ -406,8 +398,7 @@ class Env
         return static::getRaw($name) !== null;
     }
 
-    /** @param mixed $value */
-    public static function set(string $name, $value): void
+    public static function set(string $name, mixed $value): void
     {
         static::getRepository()->set($name, Str::from($value));
     }

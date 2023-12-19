@@ -9,7 +9,7 @@ use IntoTheVoid\Env\Helper\Str;
 
 class EnvArrayRepository implements RepositoryInterface
 {
-    public function get(string $name): ?string
+    public function get(string $name): string|null
     {
         if ($name === '') {
             throw InvalidName::fromName($name);
@@ -22,7 +22,7 @@ class EnvArrayRepository implements RepositoryInterface
         return Str::from($_ENV[$name]);
     }
 
-    public function set(string $name, ?string $value): void
+    public function set(string $name, string|null $value): void
     {
         if ($name === '') {
             throw InvalidName::fromName($name);

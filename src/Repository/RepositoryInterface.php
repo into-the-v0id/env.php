@@ -8,13 +8,9 @@ namespace IntoTheVoid\Env\Repository;
 
 interface RepositoryInterface
 {
-    /**
-     * @return string|null Returns null if the variable does not exist
-     */
-    public function get(string $name): ?string;
+    /** @return string|null Returns null if the variable does not exist */
+    public function get(string $name): string|null;
 
-    /**
-     * @param string|null $value Pass null to remove the variable
-     */
-    public function set(string $name, ?string $value): void;
+    /** @param string|null $value Pass null to remove the variable */
+    public function set(string $name, string|null $value): void;
 }

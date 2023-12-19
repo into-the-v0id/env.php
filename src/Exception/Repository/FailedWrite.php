@@ -11,17 +11,16 @@ use function sprintf;
 
 class FailedWrite extends RuntimeException implements RepositoryException
 {
-    /** @var string|null */
-    protected $name = null;
+    protected string|null $name = null;
 
     public static function fromName(
         string $name,
         int $code = 0,
-        ?Throwable $previous = null
+        Throwable|null $previous = null,
     ): self {
         $message = sprintf(
             'Unable to write environment variable "%s"',
-            $name
+            $name,
         );
 
         $exception       = new self($message, $code, $previous);
@@ -30,7 +29,7 @@ class FailedWrite extends RuntimeException implements RepositoryException
         return $exception;
     }
 
-    public function getName(): ?string
+    public function getName(): string|null
     {
         return $this->name;
     }

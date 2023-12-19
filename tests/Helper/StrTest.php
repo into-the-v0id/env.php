@@ -9,9 +9,7 @@ use IntoTheVoid\Env\Test\TestCase;
 
 final class StrTest extends TestCase
 {
-    /**
-     * @return array<array<mixed>>
-     */
+    /** @return array<array<mixed>> */
     public function startsWithProvider(): array
     {
         return [
@@ -26,20 +24,16 @@ final class StrTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider startsWithProvider
-     */
+    /** @dataProvider startsWithProvider */
     public function testStartsWith(string $haystack, string $needle, bool $result): void
     {
         $this->assertEquals(
             $result,
-            Str::startsWith($haystack, $needle)
+            Str::startsWith($haystack, $needle),
         );
     }
 
-    /**
-     * @return array<array<mixed>>
-     */
+    /** @return array<array<mixed>> */
     public function endsWithProvider(): array
     {
         return [
@@ -54,20 +48,16 @@ final class StrTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider endsWithProvider
-     */
+    /** @dataProvider endsWithProvider */
     public function testEndsWith(string $haystack, string $needle, bool $result): void
     {
         $this->assertEquals(
             $result,
-            Str::endsWith($haystack, $needle)
+            Str::endsWith($haystack, $needle),
         );
     }
 
-    /**
-     * @return array<array<mixed>>
-     */
+    /** @return array<array<mixed>> */
     public function containsProvider(): array
     {
         return [
@@ -84,20 +74,16 @@ final class StrTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider containsProvider
-     */
+    /** @dataProvider containsProvider */
     public function testContains(string $haystack, string $needle, bool $result): void
     {
         $this->assertEquals(
             $result,
-            Str::contains($haystack, $needle)
+            Str::contains($haystack, $needle),
         );
     }
 
-    /**
-     * @return array<array<mixed>>
-     */
+    /** @return array<array<mixed>> */
     public function unwrapProvider(): array
     {
         return [
@@ -118,20 +104,16 @@ final class StrTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider unwrapProvider
-     */
+    /** @dataProvider unwrapProvider */
     public function testUnwrap(string $value, string $left, string $right, string $result): void
     {
         $this->assertEquals(
             $result,
-            Str::unwrap($value, $left, $right)
+            Str::unwrap($value, $left, $right),
         );
     }
 
-    /**
-     * @return array<array<mixed>>
-     */
+    /** @return array<array<mixed>> */
     public function splitProvider(): array
     {
         return [
@@ -157,13 +139,11 @@ final class StrTest extends TestCase
     {
         $this->assertEquals(
             $result,
-            Str::split($value, $separator)
+            Str::split($value, $separator),
         );
     }
 
-    /**
-     * @return array<array<mixed>>
-     */
+    /** @return array<array<mixed>> */
     public function fromProvider(): array
     {
         return [
@@ -182,16 +162,12 @@ final class StrTest extends TestCase
         ];
     }
 
-    /**
-     * @param mixed $value
-     *
-     * @dataProvider fromProvider
-     */
-    public function testFrom($value, string $result): void
+    /** @dataProvider fromProvider */
+    public function testFrom(mixed $value, string $result): void
     {
         $this->assertEquals(
             $result,
-            Str::from($value)
+            Str::from($value),
         );
     }
 }

@@ -6,18 +6,13 @@ namespace IntoTheVoid\Env\Repository;
 
 class RepositoryChain implements RepositoryInterface
 {
-    /** @var RepositoryInterface[] */
-    protected $repositories;
-
-    /**
-     * @param RepositoryInterface[] $repositories
-     */
-    public function __construct(array $repositories)
-    {
-        $this->repositories = $repositories;
+    /** @param RepositoryInterface[] $repositories */
+    public function __construct(
+        protected array $repositories,
+    ) {
     }
 
-    public function get(string $name): ?string
+    public function get(string $name): string|null
     {
         foreach ($this->repositories as $repository) {
             $value = $repository->get($name);
@@ -29,7 +24,7 @@ class RepositoryChain implements RepositoryInterface
         return null;
     }
 
-    public function set(string $name, ?string $value): void
+    public function set(string $name, string|null $value): void
     {
         foreach ($this->repositories as $repository) {
             $repository->set($name, $value);

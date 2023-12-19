@@ -19,9 +19,7 @@ final class ArrayRepositoryTest extends TestCase
         ]);
     }
 
-    /**
-     * @return array<array<mixed>>
-     */
+    /** @return array<array<mixed>> */
     public function getterProvider(): array
     {
         return [
@@ -31,20 +29,16 @@ final class ArrayRepositoryTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider getterProvider
-     */
-    public function testGet(string $name, ?string $result): void
+    /** @dataProvider getterProvider */
+    public function testGet(string $name, string|null $result): void
     {
         $this->assertEquals(
             $result,
-            self::createRepository()->get($name)
+            self::createRepository()->get($name),
         );
     }
 
-    /**
-     * @return array<array<mixed>>
-     */
+    /** @return array<array<mixed>> */
     public function setterProvider(): array
     {
         return [
@@ -55,17 +49,15 @@ final class ArrayRepositoryTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider setterProvider
-     */
-    public function testSet(string $name, ?string $value): void
+    /** @dataProvider setterProvider */
+    public function testSet(string $name, string|null $value): void
     {
         $repository = self::createRepository();
         $repository->set($name, $value);
 
         $this->assertEquals(
             $value,
-            $repository->get($name)
+            $repository->get($name),
         );
     }
 }

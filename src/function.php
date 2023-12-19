@@ -6,10 +6,7 @@ namespace IntoTheVoid\Env;
 
 // phpcs:disable Squiz.Functions.GlobalFunction.Found
 
-/**
- * @return int|float|bool|string|null
- */
-function env(string $name)
+function env(string $name): int|float|bool|string|null
 {
     return Env::get($name);
 }
