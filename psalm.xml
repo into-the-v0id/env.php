@@ -8,6 +8,8 @@
     findUnusedVariablesAndParams="true"
     findUnusedPsalmSuppress="true"
     cacheDirectory="/tmp/psalm"
+    findUnusedBaselineEntry="true"
+    findUnusedCode="false"
 >
     <projectFiles>
         <directory name="src" />
